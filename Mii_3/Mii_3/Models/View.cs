@@ -15,5 +15,14 @@ namespace Mii_3.Models
         public Trapezoid trapezoid { get; set; }
         public Triangle triangle { get; set; }
         public PathGeometry pathGeometry { get; set; }
+        
+        public double M(int x)
+        {
+            if (trapezoid != null)
+            {
+                return trapezoid.M(x);
+            }
+            return triangle.M(x);
+        }
     }
 }

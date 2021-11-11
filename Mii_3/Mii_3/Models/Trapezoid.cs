@@ -24,5 +24,27 @@ namespace Mii_3.Models
             this.c = double.Parse(c);
             this.d = double.Parse(d);
         }
+
+        public double M(int x)
+        {
+            if (x > a && x < b)
+            {
+                double y = (double)(x - a) / (double)(b - a);
+                return y;
+            }
+            else if (x >= b && x <= c)
+            {
+                return 1;
+            }
+            else if (x > c && x < d)
+            {
+                double y = (double)(d - x) / (double)(d - c);
+                return y;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

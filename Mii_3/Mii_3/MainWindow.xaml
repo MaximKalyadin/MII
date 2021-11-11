@@ -33,6 +33,7 @@
                 <Button x:Name="buttonEdit" Height="25" Width="100" Margin="10 50 10 10" VerticalAlignment="Top" HorizontalAlignment="Left" Click="buttonEdit_Click">Edit</Button>
                 <Button x:Name="buttonDelete" Height="25" Width="100" Margin="10 85 10 10" VerticalAlignment="Top" HorizontalAlignment="Left" Click="buttonDelete_Click">Delete</Button>
                 <Button x:Name="buttonUnit" Height="25" Width="100" Margin="120 10 10 10" VerticalAlignment="Top" HorizontalAlignment="Left" Click="buttonUnit_Click">Unit</Button>
+                <Button x:Name="buttomVr" Height="25" Width="100" Margin="120 50 10 10" VerticalAlignment="Top" HorizontalAlignment="Left" Click="buttomVr_Click" >VR</Button>
             </Grid>
         </Grid>
     </Grid>

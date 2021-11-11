@@ -212,5 +212,10 @@ namespace Mii_3
             canvas.Children.Add(path);
         }
 
+        private void buttomVr_Click(object sender, RoutedEventArgs e)
+        {
+            VR vR = new VR(List_view);
+            vR.Show();
+        }
     }
 }
