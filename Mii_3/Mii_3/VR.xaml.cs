@@ -72,7 +72,7 @@ namespace Mii_3
             Func<int, int> tX = (xx) => 20 + xx * 750 / (vr.Count > 1 ? vr.Count - 1 : 1);
             Func<double, int> tY = (yy) => (int)(400 - (yy * 380 / 100));
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 5000; i++)
             {
                 if (tY(i) != tY(i - 1))
                 {
@@ -89,7 +89,75 @@ namespace Mii_3
                 }
             }
 
+            for (int i = 1; i < vr.Count; i++)
+            {
+                Line line = new Line { X1 = tX(i - 1), Y1 = tY(vr[i - 1]), X2 = tX(i), Y2 = tY(vr[i]), Stroke = GetTrendBrush(i) };
+                canvas.Children.Add(line);
+            }
+
             canvas.UpdateLayout();
+        }
+
+        private SolidColorBrush GetTrendBrush(int i)
+        {
+            List<(int start, int end)> vs = new List<(int start, int end)>
+            {
+                (0, 0)
+            };
+
+            for (int k = 1; k < 100; k++)
+            {
+                if (GetFunction(k) == GetFunction(k - 1) && (views.Where(req => req.M(k) > 0).Count()) == (views.Where(req => req.M(k - 1) > 0).Count()))
+                {
+                    int c = vs.Count - 1;
+                    vs[c] = (vs[c].start, k);
+                }
+                else
+                {
+                    vs.Add((k, k));
+                }
+            }
+
+            Func<int, int> index = (x) =>
+            {
+                for (int k = 0; k < vs.Count; k++)
+                {
+                    if (x >= vs[k].start && x <= vs[k].end)
+                    {
+                        return k;
+                    }
+                }
+                return 0;
+            };
+
+            int current = index(vr[i]);
+            int prev = index(vr[i - 1]);
+
+            if (current == prev)
+            {
+                return Brushes.Yellow;
+            }
+            if (current > prev)
+            {
+                return Brushes.Green;
+            }
+            if (current < prev)
+            {
+                return Brushes.Red;
+            }
+
+            return Brushes.Black;
+        }
+
+        private View GetFunction(int y)
+        {
+            double max = views.Max(req => req.M(y));
+            if (max == 0)
+            {
+                return null;
+            }
+            View view = views.First(req => req.M(y) == max);
+            return view;
         }
 
         private SolidColorBrush GetBackground(int y)

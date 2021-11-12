@@ -16,3 +16,4 @@ C:\Users\Maxim\source\repos\Mii_3\Mii_3\obj\Debug\Mii_3.csproj.GenerateResource.
 C:\Users\Maxim\source\repos\Mii_3\Mii_3\obj\Debug\Mii_3.csproj.CoreCompileInputs.cache
 C:\Users\Maxim\source\repos\Mii_3\Mii_3\obj\Debug\Mii_3.exe
 C:\Users\Maxim\source\repos\Mii_3\Mii_3\obj\Debug\Mii_3.pdb
+C:\Users\Maxim\source\repos\Mii_3\Mii_3\obj\Debug\Mii_3.csproj.AssemblyReference.cache
