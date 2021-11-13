@@ -16,7 +16,7 @@ namespace Mii_3.Models
         public Triangle triangle { get; set; }
         public PathGeometry pathGeometry { get; set; }
         
-        public double M(int x)
+        public double Function(int x)
         {
             if (trapezoid != null)
             {

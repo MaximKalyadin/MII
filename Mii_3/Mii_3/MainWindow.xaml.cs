@@ -28,7 +28,7 @@ namespace Mii_3
         public MainWindow()
         {
             InitializeComponent();
-            Triangle triangle = new Triangle("First", "Blue", "10", "30", "60");
+            Triangle triangle = new Triangle("First", "Red", "5", "30", "60");
             View view1 = new View
             {
                 Name = triangle.Name,
