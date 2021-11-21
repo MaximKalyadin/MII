@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mii_3"
         mc:Ignorable="d"
-        Title="VR" Height="500" Width="1220">
+        Title="VR" Height="500" Width="1370">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="800"></ColumnDefinition>
+            <ColumnDefinition Width="950"></ColumnDefinition>
             <ColumnDefinition Width="400"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Canvas Grid.Column="0" HorizontalAlignment="Left" x:Name="canvas">
