@@ -37,6 +37,15 @@ namespace Mii_3
                 trapezoid = null
             };
             List_view.Add(view1);
+            Triangle triangle2 = new Triangle("Two", "green", "45", "80", "100");
+            View view2 = new View
+            {
+                Name = triangle2.Name,
+                Color = triangle2.Color,
+                triangle = triangle2,
+                trapezoid = null
+            };
+            List_view.Add(view2);
             Paint();
         }
 

@@ -48,8 +48,4 @@ def show_fuzzy_set_graph():
 
 
 init_clear_set()
-# init_fuzzy_set()
-# print(a, b, c, d)
-# print(clear_set)
-# print(fuzzy_set)
 show_fuzzy_set_graph()

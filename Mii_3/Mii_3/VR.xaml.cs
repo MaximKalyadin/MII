@@ -33,6 +33,9 @@ namespace Mii_3
             Paint();
         }
 
+        // Корректно отобразить на графике прогнозируемое значение, расчитать ошибку 
+        // Что такое фаззификация и дефаззификация
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             vr.Add(int.Parse(Add_textbox.Text));
@@ -74,7 +77,7 @@ namespace Mii_3
             listbox.ItemsSource = null;
             listbox.ItemsSource = vr;
 
-            edge = (int)(forecasted.Count / prediction) - 1;
+            edge = forecasted.Count - 2;
 
             canvas.Children.Clear();
 
@@ -128,8 +131,8 @@ namespace Mii_3
             polyline.Points = points;
             canvas.Children.Add(polyline);*/
 
-            Line edgeL = new Line { X1 = tX(edge), Y1 = tY(0), X2 = tX(edge), Y2 = tY(100), Stroke = Brushes.Black };
-            canvas.Children.Add(edgeL);
+            //Line edgeL = new Line { X1 = tX(edge), Y1 = tY(0), X2 = tX(edge), Y2 = tY(100), Stroke = Brushes.Black };
+            //canvas.Children.Add(edgeL);
 
             /*for (int i = 1; i < vr.Count; i++)
             {
@@ -139,8 +142,16 @@ namespace Mii_3
 
             for (int i = 1; i < forecasted.Count; i++)
             {
-                Line line = new Line { X1 = tX(i - 1), Y1 = tY(forecasted[i - 1]), X2 = tX(i), Y2 = tY(forecasted[i]), Stroke = GetTrendBrush(i) };
-                canvas.Children.Add(line);
+                if (i == forecasted.Count - 1)
+                {
+                    Line line = new Line { X1 = tX(i - 1), Y1 = tY(forecasted[i - 1]), X2 = tX(i), Y2 = tY(forecasted[i]), Stroke = GetTrendBrush(i), StrokeThickness = 4 };
+                    canvas.Children.Add(line);
+                } 
+                else
+                {
+                    Line line = new Line { X1 = tX(i - 1), Y1 = tY(forecasted[i - 1]), X2 = tX(i), Y2 = tY(forecasted[i]), Stroke = GetTrendBrush(i) };
+                    canvas.Children.Add(line);
+                }
             }
         }
 
@@ -251,7 +262,7 @@ namespace Mii_3
             {
                 brushes.Add(GetTrendBrush(i));
             }
-                
+            
             Dictionary<Brush, Dictionary<Brush, int>> dict = new Dictionary<Brush, Dictionary<Brush, int>>();
 
             for (int i = 1; i < brushes.Count; i++)
@@ -263,8 +274,6 @@ namespace Mii_3
                 {
                     dict.Add(prev, new Dictionary<Brush, int>());
                 }
-                    
-
                 if (!dict[prev].ContainsKey(current))
                 {
                     dict[prev].Add(current, 1);
@@ -289,6 +298,7 @@ namespace Mii_3
                 return view;
             };
 
+            //расчет границы областей 
             for (int k = 2; k < 100; k++)
             {
                 View currentF = GetFunction(k);
@@ -317,18 +327,21 @@ namespace Mii_3
                 return 0;
             };
 
-            Func<int, int> center = (i) => fs[i].start + (fs[i].end - fs[i].start) / 2;
 
-            int n = (int)(vr.Count * prediction - vr.Count);
+            Func<int, int> center = (i) => rnd.Next(fs[i].start, fs[i].end); //fs[i].start + (fs[i].end - fs[i].start) / 2;
+
+            int n = vr.Count == 0 ? 0 : 1;
 
             int last = vr.Count > 0 ? vr[vr.Count - 1] : 0;
             double maxWrong = 0;
 
+            //алгоритм прогнозирования
             for (int i = 0; i < n; i++)
             {
-                int prevIndex = index(forecasted[forecasted.Count - 1]);
+                int prevIndex = index(forecasted[forecasted.Count - 2]);
+ 
                 List<Brush> variants = new List<Brush>();
-                Brush pb = brushes[brushes.Count - 1];
+                Brush pb = brushes[brushes.Count - 2];
 
                 foreach (Brush b in dict[pb].Keys)
                 {
@@ -337,6 +350,7 @@ namespace Mii_3
                         variants.Add(b);
                     } 
                 }
+
 
                 Brush trend = null;
                 int m = 0;
@@ -352,41 +366,28 @@ namespace Mii_3
                     {
                         m = 1;
                     }
-                    else if (trend == Brushes.Blue)
+                    else if (trend == Brushes.Black)
                     {
                         m = 0;
                     }
+
                     if (prevIndex + m >= 0 && prevIndex + m < fs.Count)
                     {
                         break;
                     } 
                 }
 
-                int currentIndex = prevIndex + m;
-                int c = center(currentIndex);
-
-                forecasted.Add(c);
+                forecasted.Add(center(prevIndex + m));
                 brushes.Add(trend);
 
-                int k = 0;
-                while (true)
-                {
-                    k = rnd.Next(-20, 21);
-                    if (last + k <= 100 || last + k >= 0)
-                    {
-                        break;
-                    }
-                }
+                int lastForecasted = center(prevIndex + m);
 
-                last += k;
-
-                double wrong = Math.Abs((double)(forecasted[forecasted.Count - 1] - last) / forecasted[forecasted.Count - 1]);
-                maxWrong = Math.Max(maxWrong, wrong);
+                maxWrong = Math.Abs((double)(forecasted[forecasted.Count - 1] - lastForecasted) / forecasted[forecasted.Count - 1]);
             }
 
             if (vr.Count > 0)
             {
-                MessageBox.Show(maxWrong.ToString(), "Oшибка", MessageBoxButton.OK, MessageBoxImage.Information);
+                error.Text = maxWrong.ToString();
             }
         }
     }

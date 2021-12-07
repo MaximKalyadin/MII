@@ -26,6 +26,7 @@
             <TextBox Grid.Row="0" Margin="120 10 10 10" Height="30" VerticalAlignment="Top" x:Name="Add_textbox"></TextBox>
             <TextBox Grid.Row="1" Margin="120 10 10 10" Height="30" VerticalAlignment="Top" x:Name="Generate_textbox"></TextBox>
             <ListBox x:Name="listbox" Grid.Row="2"></ListBox>
+            <TextBox Grid.Row="1" x:Name="error" Height="30" Margin="0  40 0 0"></TextBox>
 
         </Grid>
     </Grid>
